@@ -5,11 +5,14 @@ function CartItem({ img, amount, price, title }) {
   return (
     <div className={style.cartItem}>
       <div className={style.cartItem__img}>
-        <img src={img} alt=""  />
+        <img src={img} alt={title} />
       </div>
       <div className={style.cartItem__info}>
-        <h3>Title</h3>
-        <div>$125.00 x 3 $375.00</div>
+        <h3>{title}</h3>
+        <div>
+          ${price} x {amount}
+          <span> ${price * amount}</span>
+        </div>
       </div>
       <button>
         <img src={trashcan} alt="Delete" />

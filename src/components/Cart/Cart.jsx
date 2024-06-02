@@ -1,18 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import style from "./Cart.module.scss";
 import cart from "../../assets/images/icon-cart.svg";
 import CartItem from "./CartItem.jsx";
-import placeholder from "../../assets/images/image-product-1.jpg";
+
+import { ShopContext } from "../../pages/App/App.jsx";
 function Cart() {
-  const [items, setItems] = useState([
-    {
-      id: 1,
-      img: placeholder,
-      title: "Place holder title",
-      amount: 1,
-      price: 125.0,
-    },
-  ]);
+  //use Context inside a state inside Cart because other components will need
+  //to manipulate and add to or delete from cart. S
+  //So we use context to pass down and it resides in the top component, App
+  const { cartItems } = useContext(ShopContext);
 
   const [open, setOpen] = useState(false);
 
@@ -25,8 +21,8 @@ function Cart() {
       <div>
         <button className={style.cart__btn} onClick={handleToggleCart}>
           <img src={cart} alt="Cart" />
-          {items.length > 0 && (
-            <span className={style.cart__indicator}>{items.length}</span>
+          {cartItems.length > 0 && (
+            <span className={style.cart__indicator}>{cartItems.length}</span>
           )}
         </button>
       </div>
@@ -34,9 +30,9 @@ function Cart() {
       {open && (
         <div className={style.cart__expand}>
           <h2 className={style.cart__expand__title}>Cart</h2>
-          {items.length > 0 ? (
+          {cartItems.length > 0 ? (
             <ul>
-              {items.map((elem) => (
+              {cartItems.map((elem) => (
                 <li key={elem.id}>
                   <CartItem
                     img={elem.img}

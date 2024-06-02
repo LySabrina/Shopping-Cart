@@ -1,7 +1,11 @@
+import { useContext } from "react";
 import style from "./Card.module.scss";
 import PropTypes from "prop-types";
+import { ShopContext } from "../../pages/App/App.jsx";
 
 function Card({ title, image, price }) {
+  const {addToCart} = useContext(ShopContext);
+
   return (
     <div className={style.card}>
       <div className={style.card__img}>
@@ -11,8 +15,11 @@ function Card({ title, image, price }) {
         <h1>{title}</h1>
         <p>${price}</p>
       </div>
-      <div>
-        <button>+</button>
+      <div className={style.card__btn}>
+        <button onClick={(e)=>{
+          e.stopPropagation();
+          
+        }}>+</button>
       </div>
     </div>
   );

@@ -61,7 +61,7 @@ function Navbar() {
         </ul>
       </nav>
       <Cart />
-      <div className={open && style.overlay}></div>
+      <div className={open && style.overlay} onClick={handleMenuButton}></div>
     </header>
   );
 }
