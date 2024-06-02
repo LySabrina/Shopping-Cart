@@ -1,0 +1,14 @@
+.catalogue{
+    padding:1rem;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+
+@media screen and (min-width: 30rem){
+    .catalogue{
+        flex-direction: row;
+    }
+}
