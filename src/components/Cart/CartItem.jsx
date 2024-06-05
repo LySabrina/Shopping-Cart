@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import trashcan from "../../assets/images/icon-delete.svg";
 import style from "./Cart.module.scss";
 import PropTypes from "prop-types";
@@ -9,11 +9,11 @@ function CartItem({ img, amount, price, title, elem }) {
 
   function handleChangeAmount(num) {
     if (amount + num < 1) {
-      return;
+      deleteFromCart(elem);
+    } else {
+      const item = { ...elem, amount: amount + num };
+      addToCart(item);
     }
-
-    const item = { ...elem, amount: amount + num };
-    addToCart(item);
   }
   return (
     <div className={style.cartItem}>
@@ -27,13 +27,14 @@ function CartItem({ img, amount, price, title, elem }) {
           <span>
             <b> ${price * amount}</b>
           </span>
+          <div>
+            <button onClick={() => handleChangeAmount(-1)}>-</button>
+            <span> {amount} </span>
+            <button onClick={() => handleChangeAmount(1)}>+</button>
+          </div>
         </div>
       </div>
-      <div>
-        <button onClick={() => handleChangeAmount(-1)}>-</button>
-        <span>{amount}</span>
-        <button onClick={() => handleChangeAmount(1)}>+</button>
-      </div>
+
       <button onClick={() => deleteFromCart(elem)}>
         <img src={trashcan} alt="Delete" />
       </button>

@@ -4,6 +4,7 @@ import Checkout from "./Checkout/";
 import Error from "./Error/Error";
 import Home from "./Home";
 import Product from "./Product/";
+import { defer } from "react-router-dom";
 const routes = [
   {
     path: "/",
@@ -22,6 +23,7 @@ const routes = [
           );
 
           const responseJson = await fetchCategory.json();
+
           return responseJson;
         },
         element: <Catalogoue />,
