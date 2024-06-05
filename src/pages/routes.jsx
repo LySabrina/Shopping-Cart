@@ -1,5 +1,6 @@
 import App from "./App/App";
 import Catalogoue from "./Catalogue/Catalogue.jsx";
+import Checkout from "./Checkout/";
 import Error from "./Error/Error";
 import Home from "./Home";
 import Product from "./Product/";
@@ -30,6 +31,10 @@ const routes = [
         path: "/product/:id",
 
         element: <Product />,
+      },
+      {
+        path: "/checkout",
+        element: <Checkout />,
       },
     ],
   },

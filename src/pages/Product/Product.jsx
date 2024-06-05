@@ -3,13 +3,34 @@ import style from "./Product.module.scss";
 import cart from "../../assets/images/icon-cart.svg";
 import minus from "../../assets/images/icon-minus.svg";
 import plus from "../../assets/images/icon-plus.svg";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ShopContext } from "../App/App.jsx";
 
 function Product() {
   const { state } = useLocation();
   const { addToCart } = useContext(ShopContext);
+  const [amount, setAmount] = useState(1);
 
+  function handleChangeAmount(num) {
+    //why not amount - num ? ==> num - (-1) = num + 1
+    if (amount + num <= 0) {
+      return;
+    }
+
+    setAmount((prevAmount) => prevAmount + num);
+  }
+
+  function addProduct() {
+    const item = {
+      title: state.title,
+      id: state.id,
+      img: state.image,
+      amount: amount,
+      price: state.price,
+    };
+
+    addToCart(item);
+  }
   return (
     <div className={style.product}>
       <div className={style.product__img}>
@@ -22,21 +43,13 @@ function Product() {
           <p>${state.price}</p>
         </div>
         <div className={style.product__btns}>
-          <button></button>
-          <button
-            className={style["product__btns--cart"]}
-            onClick={() => {
-              const item = {
-                title: state.title,
-                id: state.id,
-                img: state.image,
-                amount: 1,
-                price: state.price,
-              };
+          <div>
+            <button onClick={() => handleChangeAmount(-1)}>-</button>
+            <span>{amount}</span>
+            <button onClick={() => handleChangeAmount(1)}>+</button>
+          </div>
 
-              addToCart(item);
-            }}
-          >
+          <button className={style["product__btns--cart"]} onClick={addProduct}>
             <span>
               <img src={cart} alt="Add to cart" />
             </span>

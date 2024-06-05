@@ -4,6 +4,7 @@ import cart from "../../assets/images/icon-cart.svg";
 import CartItem from "./CartItem.jsx";
 
 import { ShopContext } from "../../pages/App/App.jsx";
+import { Link } from "react-router-dom";
 function Cart() {
   //use Context inside a state inside Cart because other components will need
   //to manipulate and add to or delete from cart. S
@@ -39,6 +40,8 @@ function Cart() {
                     title={elem.title}
                     amount={elem.amount}
                     price={elem.price}
+                    id={elem.id}
+                    elem={elem}
                   ></CartItem>
                 </li>
               ))}
@@ -47,7 +50,9 @@ function Cart() {
             <p>You cart is empty</p>
           )}
 
-          <button className={style.cart__expand__checkout}>Checkout</button>
+          <Link to={"/checkout"} onClick={() => setOpen(false)}>
+            <button className={style.cart__expand__checkout}>Checkout</button>
+          </Link>
         </div>
       )}
     </div>

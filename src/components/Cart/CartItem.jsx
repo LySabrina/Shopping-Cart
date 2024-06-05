@@ -1,7 +1,20 @@
+import { useContext, useState } from "react";
 import trashcan from "../../assets/images/icon-delete.svg";
 import style from "./Cart.module.scss";
 import PropTypes from "prop-types";
-function CartItem({ img, amount, price, title }) {
+import { ShopContext } from "../../pages/App/App.jsx";
+
+function CartItem({ img, amount, price, title, elem }) {
+  const { deleteFromCart, addToCart } = useContext(ShopContext);
+
+  function handleChangeAmount(num) {
+    if (amount + num < 1) {
+      return;
+    }
+
+    const item = { ...elem, amount: amount + num };
+    addToCart(item);
+  }
   return (
     <div className={style.cartItem}>
       <div className={style.cartItem__img}>
@@ -11,10 +24,17 @@ function CartItem({ img, amount, price, title }) {
         <h3>{title}</h3>
         <div>
           ${price} x {amount}
-          <span> ${price * amount}</span>
+          <span>
+            <b> ${price * amount}</b>
+          </span>
         </div>
       </div>
-      <button>
+      <div>
+        <button onClick={() => handleChangeAmount(-1)}>-</button>
+        <span>{amount}</span>
+        <button onClick={() => handleChangeAmount(1)}>+</button>
+      </div>
+      <button onClick={() => deleteFromCart(elem)}>
         <img src={trashcan} alt="Delete" />
       </button>
     </div>
@@ -26,5 +46,6 @@ CartItem.propTypes = {
   title: PropTypes.string,
   amount: PropTypes.number,
   price: PropTypes.number,
+  elem: PropTypes.object,
 };
 export default CartItem;

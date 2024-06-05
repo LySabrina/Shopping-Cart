@@ -23,13 +23,13 @@ function App() {
   const addToCart = (item) => {
     //check if the id exist in the array, if it exist, update the amoutn
     //if it doesn't exist, just add it into the array
-    console.log(item.id);
+
     const id = item.id;
 
-    if (cartItems.findIndex((elem) => elem.id == id) > 0) {
+    if (cartItems.findIndex((elem) => elem.id == id) >= 0) {
       const updateArr = cartItems.map((elem) => {
         if (elem.id == id) {
-          elem.amount += 1;
+          elem.amount = item.amount;
         }
         return elem;
       });
