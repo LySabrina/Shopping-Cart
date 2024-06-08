@@ -11,4 +11,6 @@
 
   --fw-regular: 400;
   --fw-bold: 700;
+
+  --desktop-break: 30rem;
 }
