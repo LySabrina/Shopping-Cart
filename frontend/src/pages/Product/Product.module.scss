@@ -1,0 +1,36 @@
+@import url("../../variable.css");
+
+.product {
+  &__img {
+    height: 20rem;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+  &__info {
+    padding: 1rem;
+    h1 {
+      font-size: 2em;
+    }
+  }
+  &__btns {
+    button {
+      width: 100%;
+      border-radius: 1rem;
+      padding: 1rem;
+      border: 0;
+      font-size: 1.5rem;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    &--cart {
+      background-color: var(--c-p-orange);
+
+      font-weight: var(--fw-bold);
+    }
+  }
+}
