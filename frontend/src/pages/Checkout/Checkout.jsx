@@ -62,7 +62,7 @@ function Checkout() {
           </>
         )}
 
-        <PaymentElement />
+        
       </div>
     </div>
   );

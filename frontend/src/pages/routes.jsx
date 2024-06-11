@@ -3,8 +3,9 @@ import Catalogoue from "./Catalogue/Catalogue.jsx";
 import Checkout from "./Checkout/";
 import Error from "./Error/Error";
 import Home from "./Home";
+import Login from "./Login/Login.jsx";
 import Product from "./Product/";
-import { defer } from "react-router-dom";
+
 const routes = [
   {
     path: "/",
@@ -37,6 +38,15 @@ const routes = [
       {
         path: "/checkout",
         element: <Checkout />,
+      },
+      {
+        path: "/account",
+        children: [
+          {
+            path: "login",
+            element: <Login />,
+          },
+        ],
       },
     ],
   },
