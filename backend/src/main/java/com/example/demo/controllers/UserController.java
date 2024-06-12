@@ -35,6 +35,7 @@ public class UserController {
         return userManagerService.loadUserByUsername(username);
     }
 
+
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody UserDTO userDTO){
         ModelMapper mapper = new ModelMapper();
