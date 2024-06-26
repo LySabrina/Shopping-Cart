@@ -6,12 +6,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationProvider;
 
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 
 
 
@@ -35,12 +35,23 @@ public class SecurityConfig {
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws  Exception{
-        http.csrf((c)-> c.disable()).authorizeHttpRequests((request) -> request.requestMatchers("/api/account/get").authenticated().anyRequest().permitAll()) .exceptionHandling(exceptionHandling -> exceptionHandling
-                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)) // Return 401 for unauthorized requests
-        );;
+        //I need HTTP Basic to enable the Username and password mechanics
+        //When we do httpBasic() Spring Security is creating a BasicAuthFilter in the SecurityFilterchain
+        http.csrf((c)-> c.disable());
+        http.authorizeHttpRequests((request) -> request.requestMatchers("/api/account/get").authenticated().anyRequest().permitAll()).httpBasic(Customizer.withDefaults());
 
-        return http.build();
-//        return http.authenticationProvider(authenticationProvider()).build();
+
+
+
+        return http.authenticationProvider(authenticationProvider()).build();
+
+//        http.httpBasic(Customizer.withDefaults());
+//
+//        http.authenticationProvider(authenticationProvider());
+//
+//        http.authorizeHttpRequests(c -> c.anyRequest().authenticated());
+//
+//        return http.build();
     }
 
 
