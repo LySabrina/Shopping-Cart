@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Cart from "../Cart";
 
+import user_icon from "../../assets/images/icon-user.svg";
 function Navbar() {
   const [open, setOpen] = useState(false);
 
@@ -61,6 +62,13 @@ function Navbar() {
         </ul>
       </nav>
       <Cart />
+
+      <div>
+        <Link to={"/account/login"} className={style.login}>
+          <img src={user_icon} alt="User" />
+          
+        </Link>
+      </div>
       <div className={open && style.overlay} onClick={handleMenuButton}></div>
     </header>
   );

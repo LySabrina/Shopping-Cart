@@ -3,8 +3,11 @@ import Catalogoue from "./Catalogue/Catalogue.jsx";
 import Checkout from "./Checkout/";
 import Error from "./Error/Error";
 import Home from "./Home";
-import Login from "./Login/Login.jsx";
+import Login from "./LoginRegister/Login/Login.jsx";
+import Register from "./LoginRegister/Register/Register.jsx";
+
 import Product from "./Product/";
+
 
 const routes = [
   {
@@ -45,6 +48,11 @@ const routes = [
           {
             path: "login",
             element: <Login />,
+          },
+
+          {
+            path: "register",
+            element: <Register />,
           },
         ],
       },
