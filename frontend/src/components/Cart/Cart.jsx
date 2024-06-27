@@ -3,14 +3,14 @@ import style from "./Cart.module.scss";
 import cart from "../../assets/images/icon-cart.svg";
 import CartItem from "./CartItem.jsx";
 
-import { ShopContext } from "../../pages/App/App.jsx";
 import { Link } from "react-router-dom";
+import { useShopContext } from "../../contexts/ShopProvider.jsx";
 function Cart() {
   //use Context inside a state inside Cart because other components will need
   //to manipulate and add to or delete from cart. S
   //So we use context to pass down and it resides in the top component, App
-  const { cartItems } = useContext(ShopContext);
 
+  const cartItems = useShopContext();
   const [open, setOpen] = useState(false);
 
   function handleToggleCart() {

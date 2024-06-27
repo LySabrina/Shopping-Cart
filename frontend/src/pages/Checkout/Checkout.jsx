@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import style from "./Checkout.module.scss";
-import { ShopContext } from "../App/App.jsx";
+
 import CartItem from "../../components/Cart/CartItem.jsx";
 import { PaymentElement } from "@stripe/react-stripe-js";
+import { useShopContext } from "../../contexts/ShopProvider.jsx";
 
 function Checkout() {
-  const { cartItems } = useContext(ShopContext);
+  const cartItems = useShopContext();
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
@@ -61,8 +62,6 @@ function Checkout() {
             </div>
           </>
         )}
-
-        
       </div>
     </div>
   );

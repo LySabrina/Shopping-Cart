@@ -1,18 +1,24 @@
-import { useContext } from "react";
 import trashcan from "../../assets/images/icon-delete.svg";
 import style from "./Cart.module.scss";
 import PropTypes from "prop-types";
-import { ShopContext } from "../../pages/App/App.jsx";
+
+import { useShopDispatch } from "../../contexts/ShopProvider.jsx";
 
 function CartItem({ img, amount, price, title, elem }) {
-  const { deleteFromCart, addToCart } = useContext(ShopContext);
+  const dispatch = useShopDispatch();
 
   function handleChangeAmount(num) {
     if (amount + num < 1) {
-      deleteFromCart(elem);
+      dispatch({
+        type: "delete",
+        item: elem,
+      });
     } else {
       const item = { ...elem, amount: amount + num };
-      addToCart(item);
+      dispatch({
+        type: "add",
+        item: item,
+      });
     }
   }
   return (
@@ -35,7 +41,14 @@ function CartItem({ img, amount, price, title, elem }) {
         </div>
       </div>
 
-      <button onClick={() => deleteFromCart(elem)}>
+      <button
+        onClick={() =>
+          dispatch({
+            type: "delete",
+            item: elem,
+          })
+        }
+      >
         <img src={trashcan} alt="Delete" />
       </button>
     </div>

@@ -1,10 +1,11 @@
 import { useContext } from "react";
 import style from "./Card.module.scss";
 import PropTypes from "prop-types";
-import { ShopContext } from "../../pages/App/App.jsx";
+
+import { useShopDispatch } from "../../contexts/ShopProvider.jsx";
 
 function Card({ title, img, price, id }) {
-  const { addToCart } = useContext(ShopContext);
+  const dispatch = useShopDispatch();
 
   return (
     <div className={style.card}>
@@ -27,7 +28,10 @@ function Card({ title, img, price, id }) {
               amount: 1,
               id: id,
             };
-            addToCart(item);
+            dispatch({
+              type: "add",
+              item: item,
+            });
           }}
         >
           +

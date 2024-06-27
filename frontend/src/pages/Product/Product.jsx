@@ -4,11 +4,13 @@ import cart from "../../assets/images/icon-cart.svg";
 import minus from "../../assets/images/icon-minus.svg";
 import plus from "../../assets/images/icon-plus.svg";
 import { useContext, useState } from "react";
-import { ShopContext } from "../App/App.jsx";
+
+import { useShopDispatch } from "../../contexts/ShopProvider.jsx";
 
 function Product() {
   const { state } = useLocation();
-  const { addToCart } = useContext(ShopContext);
+  const dispatch = useShopDispatch();
+
   const [amount, setAmount] = useState(1);
 
   function handleChangeAmount(num) {
@@ -29,7 +31,10 @@ function Product() {
       price: state.price,
     };
 
-    addToCart(item);
+    dispatch({
+      type: "add",
+      item: item,
+    });
   }
   return (
     <div className={style.product}>
