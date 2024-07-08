@@ -5,9 +5,10 @@ import Error from "./Error/Error";
 import Home from "./Home";
 import Login from "./LoginRegister/Login/Login.jsx";
 import Register from "./LoginRegister/Register/Register.jsx";
+import PaymentForm from "./PaymentForm.jsx";
 
 import Product from "./Product/";
-
+import UserProfile from "./UserProfile/UserProfile.jsx";
 
 const routes = [
   {
@@ -54,7 +55,16 @@ const routes = [
             path: "register",
             element: <Register />,
           },
+
+          {
+            path: "user",
+            element: <UserProfile />,
+          },
         ],
+      },
+      {
+        path: "/test",
+        element: <PaymentForm />,
       },
     ],
   },

@@ -53,11 +53,6 @@ function Checkout() {
               </p>
               <div>
                 <button>Proceed to Checkout</button>
-                <p>- or -</p>
-                <div>
-                  <button>Paylal</button>
-                  <button>Gpay</button>
-                </div>
               </div>
             </div>
           </>

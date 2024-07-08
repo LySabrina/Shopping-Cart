@@ -8,6 +8,7 @@ import com.example.demo.security.UserManagerService;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +44,12 @@ public class UserController {
         SecurityUser securityUser = new SecurityUser(user);
         userManagerService.createUser(securityUser);
         return ResponseEntity.status(HttpStatus.OK).body("Registration Successful");
+    }
+
+
+    @GetMapping("/hello")
+    public String hello(Authentication auth){
+        return "Hello, " + auth.getName() + "!~";
     }
 
 
