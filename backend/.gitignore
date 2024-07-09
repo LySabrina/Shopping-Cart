@@ -1,4 +1,4 @@
-HELP.md
+
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
@@ -32,4 +32,4 @@ build/
 ### VS Code ###
 .vscode/
 
-application-dev.properties
+application-env.properties
