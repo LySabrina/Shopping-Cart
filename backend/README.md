@@ -54,7 +54,15 @@ out the API key used (through HTTP Request, looking at source code)
 Strip utilizes two types of keys: 1) Public Key 2) Secret (Private) Key
 
 - Secret (Private) Key is used to be able to make API request to Stripe (ex. Refund customers, Change payment)
-- Public Key is free to be seen as that is a key used by customers to start the checkout process 
+- Public Key is free to be seen as that is a key used by customers to start the checkout process
+
+### Checkout Session vs PaymentIntent
+Checkout Session has Stripe making a pre-built checkout page for you (no coding 
+done in your end for this)
+
+PaymentIntent enforces custom Stripe implementation. PaymentIntent represent
+customer's payment lifecycle (ex. keep track of failed payment attempt 
+and ensure customer is only charged once)
 
 ## Spring 
 Some unrelated Spring Security concepts I encounter while working:
