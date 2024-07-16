@@ -8,21 +8,14 @@ import { loadStripe } from "@stripe/stripe-js";
 import { ShopProvider } from "../../contexts/ShopProvider.jsx";
 
 function App() {
-  const stripePromise = loadStripe(import.meta.env.VITE_PUBLIC_KEY);
-
   return (
     <>
-      <Elements
-        stripe={stripePromise}
-        options={{ mode: "payment", currency: "usd", amount: 10000 }}
-      >
-        <ShopProvider>
-          <Navbar />
-          <main>
-            <Outlet />
-          </main>
-        </ShopProvider>
-      </Elements>
+      <ShopProvider>
+        <Navbar />
+        <main>
+          <Outlet />
+        </main>
+      </ShopProvider>
     </>
   );
 }

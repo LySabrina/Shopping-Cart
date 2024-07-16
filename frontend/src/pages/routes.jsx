@@ -5,9 +5,10 @@ import Error from "./Error/Error";
 import Home from "./Home";
 import Login from "./LoginRegister/Login/Login.jsx";
 import Register from "./LoginRegister/Register/Register.jsx";
-import PaymentForm from "./PaymentForm.jsx";
+
 
 import Product from "./Product/";
+import StripeCheckout from "./Stripe/StripeCheckout.jsx";
 import UserProfile from "./UserProfile/UserProfile.jsx";
 
 const routes = [
@@ -64,7 +65,7 @@ const routes = [
       },
       {
         path: "/test",
-        element: <PaymentForm />,
+        element: <StripeCheckout />,
       },
     ],
   },

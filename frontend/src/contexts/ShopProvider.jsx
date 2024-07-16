@@ -18,18 +18,19 @@ export const ShopContext = createContext({
 export const ShopDispatch = createContext(null);
 
 export const useShopContext = () => useContext(ShopContext);
+
 export const useShopDispatch = () => useContext(ShopDispatch);
+export const APP_NAME = "SHOPPING";
 
 export function ShopProvider({ children }) {
-  const [cartItems, dispatch] = useReducer(shopReducer, [
-    {
-      id: 1,
-      img: placeholder,
-      title: "Place holder title",
-      amount: 1,
-      price: 125.0,
-    },
-  ]);
+  const localStorageCartItems = JSON.parse(
+    localStorage.getItem(`${APP_NAME}.cartItems`)
+  );
+
+  const [cartItems, dispatch] = useReducer(
+    shopReducer,
+    localStorageCartItems ?? []
+  ); // localStorageCartItems ?? [] means if localStorageCartItems is null return [] else return localStorageCartItems
 
   return (
     <ShopContext.Provider value={cartItems}>
@@ -40,21 +41,33 @@ export function ShopProvider({ children }) {
 
 function shopReducer(cartItems, action) {
   switch (action.type) {
-    case "add":
+    case "add": {
+      let updateArr;
       if (cartItems.findIndex((elem) => elem.id === action.item.id) >= 0) {
-        const updateArr = cartItems.map((elem) => {
+        updateArr = cartItems.map((elem) => {
           if (elem.id == action.item.id) {
             elem.amount = action.item.amount;
           }
           return elem;
         });
-        return updateArr;
+        // return updateArr;
       } else {
-        return [...cartItems, action.item];
+        updateArr = [...cartItems, action.item];
+        // return [...cartItems, action.item];
       }
+
+      // save to localstorage
+      localStorage.setItem(`${APP_NAME}.cartItems`, JSON.stringify(updateArr));
+      return updateArr;
+    }
 
     case "delete": {
       const filterItems = cartItems.filter((elem) => elem != action.item);
+      localStorage.setItem(
+        `${APP_NAME}.cartItems`,
+        JSON.stringify(filterItems)
+      );
+
       return filterItems;
     }
   }

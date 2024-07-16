@@ -18,6 +18,20 @@ function Checkout() {
     setTotal(cost);
   }, [cartItems]);
 
+  function proceedToCheckout(){
+    const ids = [];
+    for(let i =0 ;i < cartItems.length; i++){
+      const cartItem = cartItems[i];
+      ids.push(cartItem.id);
+    }
+    console.log(ids);
+  }
+  /**
+   * On "Proceed to Checkout"
+   * Send in a list of product id, so that the server can find the price of each product and calculate the total for the user
+   * Do not send in the total amount from the client-side because they can be malicious and send in the wrong price to pay
+   */
+
   return (
     <div>
       <div>
@@ -26,7 +40,7 @@ function Checkout() {
         ) : (
           <>
             <h1>Checkout</h1>
-            <ul>
+            <ul className={style["cart__expand-list"]}>
               {cartItems.map((elem) => {
                 return (
                   <li key={elem.id}>
@@ -45,14 +59,16 @@ function Checkout() {
 
             <div className={style.checkout__payment}>
               <h2>
-                Subtotal: <span>{total}</span>
+                Subtotal: $<span>{total}</span>
               </h2>
               <p>
                 Please read our Shipping/Return Policy. We follow these policies
                 regarding your purchases
               </p>
               <div>
-                <button>Proceed to Checkout</button>
+                <button
+                  onClick={proceedToCheckout}
+                >Proceed to Checkout</button>
               </div>
             </div>
           </>

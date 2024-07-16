@@ -31,8 +31,8 @@ function Cart() {
       {open && (
         <div className={style.cart__expand}>
           <h2 className={style.cart__expand__title}>Cart</h2>
-          {cartItems.length > 0 ? (
-            <ul>
+          {cartItems && cartItems.length > 0 ? (
+            <ul className={style["cart__expand-list"]}>
               {cartItems.map((elem) => (
                 <li key={elem.id}>
                   <CartItem

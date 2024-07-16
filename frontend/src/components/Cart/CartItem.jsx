@@ -9,16 +9,20 @@ function CartItem({ img, amount, price, title, elem }) {
 
   function handleChangeAmount(num) {
     if (amount + num < 1) {
+      console.log("dispatch?");
       dispatch({
         type: "delete",
         item: elem,
       });
+      console.log("dispatch!");
     } else {
       const item = { ...elem, amount: amount + num };
+      console.log("dispatch?");
       dispatch({
         type: "add",
         item: item,
       });
+      console.log("dispatch!");
     }
   }
   return (
@@ -31,7 +35,7 @@ function CartItem({ img, amount, price, title, elem }) {
         <div>
           ${price} x {amount}
           <span>
-            <b> ${price * amount}</b>
+            <b> ${Math.round(price * amount * 100) / 100}</b>
           </span>
           <div>
             <button onClick={() => handleChangeAmount(-1)}>-</button>
