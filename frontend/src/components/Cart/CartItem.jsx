@@ -38,7 +38,9 @@ function CartItem({ img, amount, price, title, elem }) {
             <b> ${Math.round(price * amount * 100) / 100}</b>
           </span>
           <div>
-            <button onClick={() => handleChangeAmount(-1)}>-</button>
+            <button 
+            
+            onClick={() => handleChangeAmount(-1)}>-</button>
             <span> {amount} </span>
             <button onClick={() => handleChangeAmount(1)}>+</button>
           </div>

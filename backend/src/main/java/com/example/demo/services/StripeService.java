@@ -72,4 +72,5 @@ public class StripeService {
         PaymentIntent paymentIntent = PaymentIntent.create(params);
         return paymentIntent.getClientSecret();
     }
+
 }

@@ -14,7 +14,4 @@ public class Base {
     @Id
     private ObjectId id;
 
-
-
-
 }

@@ -10,7 +10,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Document("User")
+
+
 /**
  * Model Class of User
  * Database to Java Representation of a table value

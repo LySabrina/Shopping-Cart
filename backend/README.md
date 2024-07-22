@@ -3,6 +3,11 @@ Create the login/sign up and storing of the user information.
 
 Creates the endpoints to be used for the frontend
 
+# Issues that Occured
+Some issues that occured as I was working through my project:
+- Studying up how to handle setting up Checkout for users
+  - Learned: best to calcualte the cost on the backend. Users can send malicious  cost 
+  
 # Study Notes
 Important Spring & Stripe concepts I encounter or learned.
 
@@ -189,4 +194,80 @@ public class YourComponent {
     }
 }
 ```
+### 4) Exception Handling
+Ways to handling exceptions:
+1) Controller Level
+2) Global Level
 
+#### Controller Level
+@ExceptionHandler(<EXCEPTION.class>)
+- annotate a method with this annotation. 
+- the method annotated with this annotation should be responsible for handling the exception that is thrown from another method 
+
+```java
+@Controller
+public class MyController {
+
+    @GetMapping("/someEndpoint")
+    public String someMethod() {
+        // some logic that might throw an exception
+        if (someCondition) {
+            throw new MyCustomException("Something went wrong");
+        }
+        return "someView";
+    }
+
+    @ExceptionHandler(MyCustomException.class)
+    public String handleMyCustomException(MyCustomException ex, Model model) {
+        // handle the exception and return a view name
+        model.addAttribute("errorMessage", ex.getMessage());
+        return "errorView";
+    }
+}
+```
+
+Methods annotated with @ExceptionHandler can accept a flexible arguments. We can get arguments relevant to context information 
+
+Ex) 
+- Model 
+- HttpServletRequest & HttpServletResponse
+- Authentication 
+
+Additionally, we can return different types
+- ResponseEntity
+- String
+- ResponseBody
+
+#### Global Level
+Use: @ControllerAdvice (or @RestControllerAdvice) + @ExceptionHandler on a class 
+
+This will handle all exception thrown from any @Controller class.
+
+```java
+@ControllerAdvice
+public class GlobalExceptionHandler {
+
+    // Handle a specific custom exception
+    @ExceptionHandler(MyCustomException.class)
+    public ResponseEntity<String> handleMyCustomException(MyCustomException ex, WebRequest request) {
+        String errorMessage = "Custom error: " + ex.getMessage();
+        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    // Handle a generic exception
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleGenericException(Exception ex, WebRequest request) {
+        String errorMessage = "An error occurred: " + ex.getMessage();
+        return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    // Handle an exception and return a view
+    @ExceptionHandler(AnotherCustomException.class)
+    public String handleAnotherCustomException(AnotherCustomException ex, Model model) {
+        model.addAttribute("errorMessage", ex.getMessage());
+        return "errorView";
+    }
+}
+```
+
+### MongoDB

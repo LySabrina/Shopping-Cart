@@ -7,25 +7,49 @@ import { useShopContext } from "../../contexts/ShopProvider.jsx";
 
 function Checkout() {
   const cartItems = useShopContext();
-  const [total, setTotal] = useState(0);
+  // const [total, setTotal] = useState(0);
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   let cost = 0;
+  //   for (let item of cartItems) {
+  //     let costxAmount = item.price * item.amount;
+  //     cost += costxAmount;
+  //   }
+  //   setTotal(cost);
+  // }, [cartItems]);
+
+  const totalCost = () => {
     let cost = 0;
     for (let item of cartItems) {
       let costxAmount = item.price * item.amount;
       cost += costxAmount;
     }
-    setTotal(cost);
-  }, [cartItems]);
 
-  function proceedToCheckout(){
-    const ids = [];
-    for(let i =0 ;i < cartItems.length; i++){
+    return cost;
+  };
+
+  function getCheckoutItems() {
+    const items = [];
+    for (let i = 0; i < cartItems.length; i++) {
       const cartItem = cartItems[i];
-      ids.push(cartItem.id);
+
+      const item = {};
+      item.amount = cartItem.amount;
+      item.id = cartItem.id;
+
+      items.push(item);
     }
-    console.log(ids);
   }
+
+  async function proceedToCheckout() {
+    const items = getCheckoutItems(); //get the id of items and their amount
+
+    const paymentIntent = fetch("http://localhost:8080/create-payment-intent", {
+      method: "POST",
+      body: JSON.stringify(items),
+    });
+  }
+
   /**
    * On "Proceed to Checkout"
    * Send in a list of product id, so that the server can find the price of each product and calculate the total for the user
@@ -59,16 +83,14 @@ function Checkout() {
 
             <div className={style.checkout__payment}>
               <h2>
-                Subtotal: $<span>{total}</span>
+                Subtotal: $<span>{totalCost()}</span>
               </h2>
               <p>
                 Please read our Shipping/Return Policy. We follow these policies
                 regarding your purchases
               </p>
               <div>
-                <button
-                  onClick={proceedToCheckout}
-                >Proceed to Checkout</button>
+                <button onClick={proceedToCheckout}>Proceed to Checkout</button>
               </div>
             </div>
           </>

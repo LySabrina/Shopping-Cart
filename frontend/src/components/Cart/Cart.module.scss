@@ -116,15 +116,22 @@ li {
     border:0;
     background-color: transparent;
     padding:1em;
+
+    &:hover{
+      cursor: pointer;
+    }
   }
 }
 
 @media screen and (min-width: $desktop-break) {
   .cart {
     &__expand {
-      right: 0;
+      right: 1.5em;
       left: auto;
-      width: 10rem;
+
+      width:25em;
+      
+      //figure out a way to keep at 25% and stop making it skinny
     }
   }
 }
