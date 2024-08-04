@@ -271,3 +271,17 @@ public class GlobalExceptionHandler {
 ```
 
 ### MongoDB
+#### @Query
+This is not unique to MongoDB (can be used for MySQL)
+Syntax: @Query( value =<JSON QUERY STRING>) 
+- can omit value 
+```java
+@Query("{ 'name' : ?0 }")
+List<User> findUsersByName(String name); 
+```
+
+`?0` refers to the placeholder argument (in this case name). Index based
+
+Resource: https://www.baeldung.com/queries-in-spring-data-mongodb
+
+### Issues --> Resolved

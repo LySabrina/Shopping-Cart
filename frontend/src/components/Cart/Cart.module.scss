@@ -34,7 +34,7 @@
     left: 0;
     width: 90%;
     left: 5%;
-
+    z-index: 5;
     height: 50%;
     & > * {
       margin: 1rem 0px 1rem 0px;
@@ -132,6 +132,12 @@ li {
       width:25em;
       
       //figure out a way to keep at 25% and stop making it skinny
+    }
+  }
+  .cartItem{
+    
+    &__img{
+      
     }
   }
 }

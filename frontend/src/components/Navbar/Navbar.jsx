@@ -40,22 +40,22 @@ function Navbar() {
         </button>
         <ul className={style.navbar__list}>
           <li>
-            <Link to="/catalogue/electronics" onClick={handleClickLink}>
+            <Link to="/catalogue/ELECTRONICS" onClick={handleClickLink}>
               Electronics
             </Link>
           </li>
           <li>
-            <Link to="/catalogue/jewelery" onClick={handleClickLink}>
+            <Link to="/catalogue/JEWELERY" onClick={handleClickLink}>
               Jewelery
             </Link>
           </li>
           <li>
-            <Link to="/catalogue/men's clothing" onClick={handleClickLink}>
+            <Link to="/catalogue/MEN" onClick={handleClickLink}>
               Men
             </Link>
           </li>
           <li>
-            <Link to="/catalogue/women's clothing" onClick={handleClickLink}>
+            <Link to="/catalogue/WOMEN" onClick={handleClickLink}>
               Women
             </Link>
           </li>

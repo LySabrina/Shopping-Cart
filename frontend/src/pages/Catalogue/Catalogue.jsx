@@ -6,6 +6,7 @@ function Catalogoue() {
   const items = useLoaderData();
   const loading = useNavigation();
 
+  
   if (loading.state == "loading") {
     return <h1 className={style.catalogue__loading}>Loading...</h1>;
   }

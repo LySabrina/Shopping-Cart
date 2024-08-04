@@ -7,8 +7,7 @@ const stripePromise = loadStripe(import.meta.env.VITE_PUBLIC_KEY);
 function StripeCheckout() {
 
 
-  // need to get the client key from the backend to render the checkout
-  // need to pass the ID of items and calcualte the cost there
+  
   return (
     <>
       <Elements

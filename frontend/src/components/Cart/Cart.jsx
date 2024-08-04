@@ -50,7 +50,7 @@ function Cart() {
             <p>You cart is empty</p>
           )}
 
-          <Link to={"/checkout"} onClick={() => setOpen(false)}>
+          <Link to={"/cart"} onClick={() => setOpen(false)}>
             <button className={style.cart__expand__checkout}>Checkout</button>
           </Link>
         </div>

@@ -1,11 +1,11 @@
 import App from "./App/App";
+import CartPage from "./CartPage/CartPage.jsx";
 import Catalogoue from "./Catalogue/Catalogue.jsx";
 import Checkout from "./Checkout/";
 import Error from "./Error/Error";
 import Home from "./Home";
 import Login from "./LoginRegister/Login/Login.jsx";
 import Register from "./LoginRegister/Register/Register.jsx";
-
 
 import Product from "./Product/";
 import StripeCheckout from "./Stripe/StripeCheckout.jsx";
@@ -24,14 +24,16 @@ const routes = [
       {
         path: "/catalogue/:category",
         loader: async ({ params }) => {
+          
           const fetchCategory = await fetch(
-            `https://fakestoreapi.com/products/category/${params.category}`
+            `http://localhost:8080/api/product/category/${params.category}`
           );
 
           const responseJson = await fetchCategory.json();
 
           return responseJson;
         },
+        errorElement: <Error/>,
         element: <Catalogoue />,
       },
 
@@ -41,8 +43,8 @@ const routes = [
         element: <Product />,
       },
       {
-        path: "/checkout",
-        element: <Checkout />,
+        path: "/cart",
+        element: <CartPage />,
       },
       {
         path: "/account",
@@ -63,6 +65,11 @@ const routes = [
           },
         ],
       },
+      {
+        path: "/checkout",
+        element: <Checkout/>
+      }
+      ,
       {
         path: "/test",
         element: <StripeCheckout />,

@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Product extends Base{
 
     private String title;
-    private float price;
+    private long price;
     private Category category;
     private String description;
     private String image;

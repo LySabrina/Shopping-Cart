@@ -12,6 +12,6 @@ import org.springframework.data.annotation.Id;
 @NoArgsConstructor
 public class Base {
     @Id
-    private ObjectId id;
+    private String id;
 
 }

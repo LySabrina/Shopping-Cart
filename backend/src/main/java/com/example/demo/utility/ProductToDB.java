@@ -63,7 +63,7 @@ public class ProductToDB {
                     category = "WOMEN";
                 }
 
-                Product p = new Product(obj.get("title").getAsString(), obj.get("price").getAsFloat(), Product.Category.valueOf(category), obj.get("description").getAsString(), obj.get("image").getAsString());
+                Product p = new Product(obj.get("title").getAsString(), obj.get("price").getAsLong(), Product.Category.valueOf(category), obj.get("description").getAsString(), obj.get("image").getAsString());
                 Document document = Document.parse(gson.toJson(p));
                 collection.insertOne(document);
             }

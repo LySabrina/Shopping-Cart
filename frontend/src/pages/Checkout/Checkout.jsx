@@ -1,102 +1,66 @@
-import { useContext, useEffect, useState } from "react";
-import style from "./Checkout.module.scss";
-
-import CartItem from "../../components/Cart/CartItem.jsx";
-import { PaymentElement } from "@stripe/react-stripe-js";
+import { Elements, useElements, useStripe } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import { useLocation } from "react-router-dom";
+import PaymentForm from "../Stripe/PaymentForm.jsx";
 import { useShopContext } from "../../contexts/ShopProvider.jsx";
+import CartItem from "../../components/Cart/CartItem.jsx";
+import { useEffect, useState } from "react";
+import CheckoutForm from "./CheckoutForm.jsx";
+
+const stripePromise = loadStripe(import.meta.env.VITE_PUBLIC_KEY);
 
 function Checkout() {
   const cartItems = useShopContext();
-  // const [total, setTotal] = useState(0);
+  // const stripe = useStripe();
+  // const elements = useElements();
 
-  // useEffect(() => {
-  //   let cost = 0;
-  //   for (let item of cartItems) {
-  //     let costxAmount = item.price * item.amount;
-  //     cost += costxAmount;
-  //   }
-  //   setTotal(cost);
-  // }, [cartItems]);
+  const [message, setMessage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const totalCost = () => {
-    let cost = 0;
-    for (let item of cartItems) {
-      let costxAmount = item.price * item.amount;
-      cost += costxAmount;
-    }
-
-    return cost;
+  const clientSecret = useLocation().state.clientSecret;
+  const options = {
+    clientSecret: clientSecret,
   };
 
-  function getCheckoutItems() {
-    const items = [];
-    for (let i = 0; i < cartItems.length; i++) {
-      const cartItem = cartItems[i];
-
-      const item = {};
-      item.amount = cartItem.amount;
-      item.id = cartItem.id;
-
-      items.push(item);
+  useEffect(() => {
+    if (!clientSecret) {
+      return;
     }
-  }
+  }, []);
 
-  async function proceedToCheckout() {
-    const items = getCheckoutItems(); //get the id of items and their amount
+  //create mult-step form
+  // const handleOnSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if(!stripe || !elements){
+  //     return;
+  //   }
+  //   setIsLoading(true);
+  //   const { error } = await stripe.confirmPayment({
+  //     elements,
+  //     confirmParams:{
+  //       return_url: "http://localhost:5173"
+  //     }
+  //   });
 
-    const paymentIntent = fetch("http://localhost:8080/create-payment-intent", {
-      method: "POST",
-      body: JSON.stringify(items),
-    });
-  }
+  //   if(error.type === "card__error" || error.type==="validation__error"){
+  //     setMessage(error.message);
+  //   }
+  //   else{
+  //     setMessage("Unexpected error occurred");
+  //   }
+  //   setIsLoading(false);
 
-  /**
-   * On "Proceed to Checkout"
-   * Send in a list of product id, so that the server can find the price of each product and calculate the total for the user
-   * Do not send in the total amount from the client-side because they can be malicious and send in the wrong price to pay
-   */
-
+  // };
   return (
-    <div>
-      <div>
-        {cartItems.length == 0 ? (
-          <h2>Nothing is in your cart! Lets do some shopping!</h2>
-        ) : (
-          <>
-            <h1>Checkout</h1>
-            <ul className={style["cart__expand-list"]}>
-              {cartItems.map((elem) => {
-                return (
-                  <li key={elem.id}>
-                    <CartItem
-                      img={elem.img}
-                      title={elem.title}
-                      amount={elem.amount}
-                      price={elem.price}
-                      id={elem.id}
-                      elem={elem}
-                    ></CartItem>
-                  </li>
-                );
-              })}
-            </ul>
-
-            <div className={style.checkout__payment}>
-              <h2>
-                Subtotal: $<span>{totalCost()}</span>
-              </h2>
-              <p>
-                Please read our Shipping/Return Policy. We follow these policies
-                regarding your purchases
-              </p>
-              <div>
-                <button onClick={proceedToCheckout}>Proceed to Checkout</button>
-              </div>
-            </div>
-          </>
-        )}
-      </div>
-    </div>
+    <>
+      <div></div>
+      {clientSecret && (
+        <Elements options={options} stripe={stripePromise}>
+          <CheckoutForm />
+        </Elements>
+      )}
+      
+    </>
   );
 }
 export default Checkout;
