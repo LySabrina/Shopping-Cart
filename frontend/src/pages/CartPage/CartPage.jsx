@@ -1,10 +1,13 @@
 import style from "./CartPage.module.scss";
 import CartItem from "../../components/Cart/CartItem.jsx";
-import { useShopContext } from "../../contexts/ShopProvider.jsx";
+import { useShopContext, useShopDispatch } from "../../contexts/ShopProvider.jsx";
 import { redirect, useNavigate } from "react-router-dom";
 
 function CartPage() {
   const cartItems = useShopContext();
+  const dispatch = useShopDispatch();
+  
+  console.log("CART ITEMS - ", cartItems);
   const navigate = useNavigate();
 
   const totalCost = () => {

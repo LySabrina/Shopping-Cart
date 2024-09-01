@@ -17,8 +17,6 @@ public class Product extends Base{
     private String description;
     private String image;
 
-
-
     public enum Category{
         ELECTRONICS,
         JEWELERY,

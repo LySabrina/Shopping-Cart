@@ -8,7 +8,7 @@ import Login from "./LoginRegister/Login/Login.jsx";
 import Register from "./LoginRegister/Register/Register.jsx";
 
 import Product from "./Product/";
-import StripeCheckout from "./Stripe/StripeCheckout.jsx";
+import Success from "./Success/Success.jsx";
 import UserProfile from "./UserProfile/UserProfile.jsx";
 
 const routes = [
@@ -24,16 +24,19 @@ const routes = [
       {
         path: "/catalogue/:category",
         loader: async ({ params }) => {
-          
           const fetchCategory = await fetch(
             `http://localhost:8080/api/product/category/${params.category}`
           );
 
           const responseJson = await fetchCategory.json();
+          const items = responseJson.map((elem) => {
+            elem.price = elem.price / 100;
+            return elem;
+          });
 
-          return responseJson;
+          return items;
         },
-        errorElement: <Error/>,
+        errorElement: <Error />,
         element: <Catalogoue />,
       },
 
@@ -65,16 +68,17 @@ const routes = [
           },
         ],
       },
+
       {
-        path: "/checkout",
-        element: <Checkout/>
-      }
-      ,
-      {
-        path: "/test",
-        element: <StripeCheckout />,
+        path: "/success",
+        element: <Success />,
       },
     ],
+  },
+
+  {
+    path: "checkout",
+    element: <Checkout />,
   },
 ];
 export default routes;

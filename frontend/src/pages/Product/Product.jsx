@@ -10,7 +10,7 @@ import { useShopDispatch } from "../../contexts/ShopProvider.jsx";
 function Product() {
   const { state } = useLocation();
   const dispatch = useShopDispatch();
-
+  console.log('dispatch', dispatch)
   const [amount, setAmount] = useState(1);
 
   function handleChangeAmount(num) {

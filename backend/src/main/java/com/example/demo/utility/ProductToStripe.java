@@ -19,7 +19,7 @@ public class ProductToStripe {
     //Find some way to use WebHooks to have Database & Stripe be in sync
     // Update items with category later
     public static void main(String[] args) throws StripeException {
-        Stripe.apiKey = "API_KEY";
+        Stripe.apiKey = "API KEY";
         MongoClient client = MongoClients.create();
         MongoDatabase db = client.getDatabase("Shopping");
         MongoCollection<Document> collection = db.getCollection("Product");

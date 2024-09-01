@@ -62,8 +62,8 @@ public class ProductToDB {
                 else if(category.equals("WOMEN'S CLOTHING")){
                     category = "WOMEN";
                 }
-
-                Product p = new Product(obj.get("title").getAsString(), obj.get("price").getAsLong(), Product.Category.valueOf(category), obj.get("description").getAsString(), obj.get("image").getAsString());
+                long price =  (long) (obj.get("price").getAsFloat() * 100);
+                Product p = new Product(obj.get("title").getAsString(), price, Product.Category.valueOf(category), obj.get("description").getAsString(), obj.get("image").getAsString());
                 Document document = Document.parse(gson.toJson(p));
                 collection.insertOne(document);
             }

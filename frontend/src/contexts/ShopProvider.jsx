@@ -7,19 +7,14 @@ import placeholder from "../assets/images/image-product-1.jpg";
  *
  */
 
-export const ShopContext = createContext({
-  id: 1,
-  img: placeholder,
-  title: "Place holder title",
-  amount: 1,
-  price: 125.0,
-});
+export const ShopContext = createContext([]);
 
 export const ShopDispatch = createContext(null);
 
 export const useShopContext = () => useContext(ShopContext);
 
 export const useShopDispatch = () => useContext(ShopDispatch);
+
 export const APP_NAME = "SHOPPING";
 
 export function ShopProvider({ children }) {
@@ -69,6 +64,12 @@ function shopReducer(cartItems, action) {
       );
 
       return filterItems;
+    }
+
+    case "clear": {
+      console.log("TEST");
+      localStorage.setItem(`${APP_NAME}.cartItems`, JSON.stringify([]));
+      return [];
     }
   }
 }

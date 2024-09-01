@@ -69,6 +69,18 @@ PaymentIntent enforces custom Stripe implementation. PaymentIntent represent
 customer's payment lifecycle (ex. keep track of failed payment attempt 
 and ensure customer is only charged once)
 
+### Canceling PaymentIntent
+Ex) Client heads to the checkout page with all their products inside their cart. The checkout page consists of Stripe's PaymentElements and the client 
+secret given to them. Assume the client changes their mind and no longer wants to buy the products. 
+
+To cancel a PaymentIntent, this must be done through the backend. The backend will handle the canceling of the created PaymentIntent.
+- User will send back the client-secret 
+- Get the client secret and use the classes: (PaymentIntent, PaymentIntentCancelParams) 
+- Cancel the payment 
+  - Success: Return PaymentIntent Object
+  - Fail: Return an error (if PaymentIntent is already canceled or can not be canceled)
+
+**It's not possible to cancel a PaymentIntent through the client side (Stripe.js)**
 ## Spring 
 Some unrelated Spring Security concepts I encounter while working:
 
@@ -285,3 +297,6 @@ List<User> findUsersByName(String name);
 Resource: https://www.baeldung.com/queries-in-spring-data-mongodb
 
 ### Issues --> Resolved
+
+### Resources
+[PaymentIntent & PaymentMethods](https://dev.to/stripe/fundamentals-of-the-paymentintents-and-paymentmethods-apis-3646)

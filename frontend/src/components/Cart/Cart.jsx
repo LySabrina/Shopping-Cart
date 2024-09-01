@@ -10,7 +10,7 @@ function Cart() {
   //to manipulate and add to or delete from cart. S
   //So we use context to pass down and it resides in the top component, App
 
-  const cartItems = useShopContext();
+  const cartItems = useShopContext() ?? [];
   const [open, setOpen] = useState(false);
 
   function handleToggleCart() {

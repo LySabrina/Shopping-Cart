@@ -1,0 +1,25 @@
+@import "../../variable";
+.checkout__img {
+  display: flex;
+}
+
+.checkoutItem__img {
+  position: relative;
+  max-width: 5em;
+  img {
+    width: 100%;
+  }
+}
+
+.checkoutItem__amount {
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  background-color: $c-n-grayBlue;
+  font-weight: bold;
+  padding: 0.5em;
+  border-radius: 50%;
+  width: 2em;
+  height: 2em;
+  text-align: center;
+}

@@ -5,6 +5,7 @@ import com.example.demo.services.ProductService;
 import com.example.demo.services.StripeService;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
+import com.stripe.param.PaymentIntentCancelParams;
 import com.stripe.param.PaymentIntentCreateParams;
 
 import org.springframework.http.ResponseEntity;
@@ -60,7 +61,14 @@ public class CheckoutController {
           */
 
         //RequestBody fetch the Product Items to calculate the price of cart
+    }
 
+    @PatchMapping("/cancel-order")
+    public ResponseEntity<String> cancelPaymentIntent(@RequestBody String clientSecret) throws StripeException {
+        PaymentIntent resource = PaymentIntent.retrieve(clientSecret);
+        PaymentIntentCancelParams params = PaymentIntentCancelParams.builder().build();
+        PaymentIntent paymentIntent = resource.cancel(params);
+        return ResponseEntity.status(200).body("Successfully Cancelled Checkout Session");
     }
 
 }

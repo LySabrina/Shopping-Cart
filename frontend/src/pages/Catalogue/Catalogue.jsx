@@ -10,6 +10,7 @@ function Catalogoue() {
   if (loading.state == "loading") {
     return <h1 className={style.catalogue__loading}>Loading...</h1>;
   }
+  console.log('items', items);
   return (
     <>
       <h1>Catalgoue</h1>
