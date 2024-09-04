@@ -3,6 +3,9 @@ package com.example.demo.controllers;
 import com.example.demo.dto.ProductDTO;
 import com.example.demo.services.ProductService;
 import com.example.demo.services.StripeService;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
 import com.stripe.param.PaymentIntentCancelParams;
@@ -51,8 +54,15 @@ public class CheckoutController {
 
         PaymentIntentCreateParams createIntent = PaymentIntentCreateParams.builder().setAmount(totalPrice).setCurrency("usd").build();
         PaymentIntent intent = PaymentIntent.create(createIntent);
+        Gson gson = new Gson();
+        JsonObject json = new JsonObject();
+        json.addProperty("clientSecret", intent.getClientSecret());
+        json.addProperty("id", intent.getId());
 
-        return ResponseEntity.status(200).body(intent.getClientSecret());
+        System.out.println(json.toString());
+//        return ResponseEntity.status(200).body(intent.getClientSecret());
+
+        return ResponseEntity.status(200).body(json.toString());
         /**
          * TODO:
          * - Loop through RequestBody list of ProductDTO and fetch the price of each product id.
@@ -63,11 +73,14 @@ public class CheckoutController {
         //RequestBody fetch the Product Items to calculate the price of cart
     }
 
-    @PatchMapping("/cancel-order")
-    public ResponseEntity<String> cancelPaymentIntent(@RequestBody String clientSecret) throws StripeException {
-        PaymentIntent resource = PaymentIntent.retrieve(clientSecret);
+    @PostMapping("/cancel-order")
+    public ResponseEntity<String> cancelPaymentIntent(@RequestBody String id) throws StripeException {
+        PaymentIntent resource = PaymentIntent.retrieve(id);
+
         PaymentIntentCancelParams params = PaymentIntentCancelParams.builder().build();
+
         PaymentIntent paymentIntent = resource.cancel(params);
+
         return ResponseEntity.status(200).body("Successfully Cancelled Checkout Session");
     }
 

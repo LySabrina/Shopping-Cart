@@ -2,8 +2,7 @@ import { Elements, useElements, useStripe } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useLocation } from "react-router-dom";
 import { ShopProvider, useShopContext } from "../../contexts/ShopProvider.jsx";
-
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CheckoutForm from "./CheckoutForm.jsx";
 import logo from "../../assets/images/logo.svg";
 import cart from "../../assets/images/icon-cart.svg";
@@ -14,25 +13,35 @@ const stripePromise = loadStripe(import.meta.env.VITE_PUBLIC_KEY);
 
 function Checkout() {
   const cartItems = useShopContext() ?? [];
+  const navigate = useNavigate();
   console.log("cart Item -", cartItems);
 
   const clientSecret = useLocation().state?.clientSecret;
+  const id = useLocation().state?.id;
   const options = {
     clientSecret: clientSecret,
   };
 
   console.log("Client Secret - " + clientSecret);
+  console.log("ID" + id);
 
   async function cancelPayment() {
     const result = await fetch(
-      `${import.meta.env.VITE_SERVER_BASE_URL}/cancel-order`,
+      `http://localhost:8080/api/checkout/cancel-order`,
       {
-        method: "PATCH",
-        body: JSON.stringify(clientSecret),
+        method: "post",
+        body: id,
       }
     );
-    const json = await result.json();
-    console.log(json);
+
+    console.log(result);
+
+    const response = await result.text();
+    console.log(response);
+
+    navigate("/cart", {replace:true});
+
+    // return
   }
 
   return (
@@ -61,7 +70,7 @@ function Checkout() {
               stripe={stripePromise}
               className={style.checkout__form}
             >
-              <CheckoutForm />
+              <CheckoutForm cancelPayment={cancelPayment} />
             </Elements>
           )}
         </div>
