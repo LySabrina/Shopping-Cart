@@ -15,6 +15,6 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler(StripeException.class)
     public ResponseEntity<String> handleStripeException(StripeException stripeException){
         System.out.println(stripeException.getMessage() + " at " + stripeException.getCode());
-        return ResponseEntity.status(501).body("Failed to make Stripe PaymentIntent " + stripeException.getMessage() + " At code: " + stripeException.getCode());
+        return ResponseEntity.status(500).body("Failed to make Stripe PaymentIntent " + stripeException.getMessage() + " At code: " + stripeException.getCode());
     }
 }
