@@ -11,6 +11,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
+/**
+ * An Authentication Provider uses a UserDetailsService and PasswordEncoder to complete the authentication process
+ */
 public class UserAuthenticationProvider  implements AuthenticationProvider {
 
     private  final UserManagerService userManagerService;

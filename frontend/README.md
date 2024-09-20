@@ -95,3 +95,7 @@ Resolve:
 
 - pass the handleOnSubmit() function as a prop and pass to the <form> inside PaymentForm.jsx
 - remove the <form> parent element inside CheckoutForm.jsx and just leave <PaymentForm> component
+
+# Resources
+
+[Spring Security + React + Basic Auth](https://stackoverflow.com/questions/61441508/spring-security-with-rest-api-with-react)

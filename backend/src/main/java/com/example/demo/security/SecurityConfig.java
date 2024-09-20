@@ -39,6 +39,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws  Exception{
         //I need HTTP Basic to enable the Username and password mechanics
         //When we do httpBasic() Spring Security is creating a BasicAuthFilter in the SecurityFilterchain
+        // AllowedOrigins makes it easier so you don't have to add @CrossOrigin on every controller you make
         http.cors(c ->{
             CorsConfigurationSource source = request -> {
                 CorsConfiguration config = new CorsConfiguration();
@@ -53,6 +54,7 @@ public class SecurityConfig {
             };
             c.configurationSource(source);
         });
+
         http.csrf((c)-> c.disable());
         http.authorizeHttpRequests((request) -> request.requestMatchers("/api/account/get").authenticated().anyRequest().permitAll()).httpBasic(Customizer.withDefaults());
 

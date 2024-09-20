@@ -8,6 +8,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserManagerService implements UserDetailsManager {
 
@@ -18,8 +20,7 @@ public class UserManagerService implements UserDetailsManager {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
-
-
+    
     @Override
     public void createUser(UserDetails user) {
         if(user instanceof SecurityUser){
@@ -46,6 +47,13 @@ public class UserManagerService implements UserDetailsManager {
 
     }
 
+    public User getUser(int id){
+        Optional<User> userOptional= userRepository.findById(id);
+        if(userOptional.isEmpty()){
+            return null;
+        }
+        return userOptional.get();
+    }
     @Override
     public boolean userExists(String username) {
 //        return userRepository.findByUsername(username) != null;
