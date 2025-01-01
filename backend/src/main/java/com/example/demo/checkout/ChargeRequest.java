@@ -1,7 +1,6 @@
-package com.example.demo.models;
+package com.example.demo.checkout;
 
 import lombok.Data;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 //@Document("ChargeRequest")
@@ -10,6 +9,5 @@ public class ChargeRequest {
     private int amount;
     private String stripeEmail;
     private String stripeToken;
-
 
 }

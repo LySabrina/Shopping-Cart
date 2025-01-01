@@ -1,9 +1,18 @@
 package com.example.demo.exceptions;
 
 import com.stripe.exception.StripeException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 /**
  * ExceptionController that catches exceptions thrown from @Controller methods
@@ -13,8 +22,34 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ExceptionControllerAdvice {
 
     @ExceptionHandler(StripeException.class)
-    public ResponseEntity<String> handleStripeException(StripeException stripeException){
+    public ResponseEntity<String> handleStripeException(StripeException stripeException) {
         System.out.println(stripeException.getMessage() + " at " + stripeException.getCode());
         return ResponseEntity.status(500).body("Failed to make Stripe PaymentIntent " + stripeException.getMessage() + " At code: " + stripeException.getCode());
+    }
+
+    /**
+     * Handles the exception related to Java Annotation Validations
+     *
+     * @param validException exception thrown by any validation annotation
+     * @return ResponseEntity with ErrorDTO
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorDTO> handleValidationException(MethodArgumentNotValidException validException) {
+        List<FieldError> fieldErrors = validException.getFieldErrors();
+
+        List<Map<String, String>> errors = fieldErrors.stream().map(field -> {
+            Map<String, String> error = new HashMap<>();
+            error.put(field.getField(), field.getDefaultMessage());
+            return error;
+        }).toList();
+
+        ErrorDTO errorDTO = new ErrorDTO("Invalid Registration", errors);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDTO);
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<String> handleProductNotFoundException(ProductNotFoundException productNotFoundException) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(productNotFoundException.getMessage());
     }
 }

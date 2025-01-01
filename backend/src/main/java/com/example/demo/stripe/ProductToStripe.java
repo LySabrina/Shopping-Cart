@@ -1,4 +1,4 @@
-package com.example.demo.utility;
+package com.example.demo.stripe;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;

@@ -11,21 +11,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-public class AuthProviderConfig {
-
-
+public class PasswordConfig {
     /**
-     * Provide as a Bean that can be used within the application.
-     * Use a DelegatingPasswordEnocder with different encryption options
-     * Good for when we might change our password encoder (such as there's a vulnerability in the encoder)
-     * @return PasswordEncoder
-     */
+     //     * Provide as a Bean that can be used within the application.
+     //     * Use a DelegatingPasswordEnocder with different encryption options
+     //     * Good for when we might change our password encoder (such as there's a vulnerability in the encoder)
+     //     * @return PasswordEncoder
+     //     */
     @Bean
     public PasswordEncoder passwordEncoder(){
         Map<String, PasswordEncoder> encoders = new HashMap<>();
         encoders.put("bcrypt", new BCryptPasswordEncoder());
         encoders.put("scrypt", new SCryptPasswordEncoder(2,8,1,32,16));
-
         return new DelegatingPasswordEncoder("bcrypt", encoders);
     }
 }

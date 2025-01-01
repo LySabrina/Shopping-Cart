@@ -8,25 +8,26 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Configuration
 public class SecurityConfig {
+    private final UserAuthenticationProvider authenticationProvider;
 
-
-    private final UserManagerService userManagerService;
-    private final PasswordEncoder passwordEncoder;
-
-    public SecurityConfig(UserManagerService userManagerService, PasswordEncoder passwordEncoder) {
-        this.userManagerService = userManagerService;
-        this.passwordEncoder =passwordEncoder;
+    public SecurityConfig( UserAuthenticationProvider authenticationProvider) {
+        this.authenticationProvider  = authenticationProvider;
     }
     /**
      * Provide as a Bean that can be used within the applicaiton.
@@ -56,29 +57,14 @@ public class SecurityConfig {
         });
 
         http.csrf((c)-> c.disable());
-        http.authorizeHttpRequests((request) -> request.requestMatchers("/api/account/get").authenticated().anyRequest().permitAll()).httpBasic(Customizer.withDefaults());
-
-        return http.authenticationProvider(authenticationProvider()).build();
-
-//        http.httpBasic(Customizer.withDefaults());
-//
-//        http.authenticationProvider(authenticationProvider());
-//
-//        http.authorizeHttpRequests(c -> c.anyRequest().authenticated());
-//
-//        return http.build();
+        http.authorizeHttpRequests(
+                (request) -> request.requestMatchers("/api/account/get")
+                        .authenticated().anyRequest().permitAll())
+                .formLogin(formLogin -> formLogin.loginPage("http://localhost:5173/account/login"));
+        return http.authenticationProvider(authenticationProvider).build();
     }
 
 
-    //UserManagerService depends on the paswordencoder which is being made inside securityconfig
-    // I should make it as its own class
-    //thats why there cirucalr dependency
-    // Since Srcurtiyconfig wants usermangerservice, but usermanagerservice needs ther passwordencoder
-
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        return new UserAuthenticationProvider(userManagerService, passwordEncoder);
-    }
 
 
 }

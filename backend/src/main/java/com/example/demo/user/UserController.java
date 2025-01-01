@@ -1,22 +1,18 @@
-package com.example.demo.controllers;
+package com.example.demo.user;
 
-import com.example.demo.dto.UserDTO;
-import com.example.demo.models.User;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.exceptions.UserAlreadyExistException;
 import com.example.demo.security.SecurityUser;
 import com.example.demo.security.UserAuthenticationProvider;
-import com.example.demo.security.UserManagerService;
+import com.example.demo.security.UserSecurityManager;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Base64;
 import java.util.List;
 
 @RestController
@@ -24,38 +20,52 @@ import java.util.List;
 public class UserController {
 
     private final UserRepository userRepository;
-    private final UserManagerService userManagerService;
+    private final UserSecurityManager userSecurityManager;
     private final UserAuthenticationProvider userAuthenticationProvider;
+    private final UserService userService;
 
-    public UserController(UserRepository userRepository, UserManagerService userManagerService, UserAuthenticationProvider userAuthenticationProvider) {
+    public UserController(UserRepository userRepository, UserSecurityManager userSecurityManager, UserAuthenticationProvider userAuthenticationProvider, UserService userService) {
         this.userRepository = userRepository;
-        this.userManagerService = userManagerService;
+        this.userSecurityManager = userSecurityManager;
         this.userAuthenticationProvider = userAuthenticationProvider;
+        this.userService = userService;
     }
 
     @GetMapping("/get")
-    public List<User> getAllUsers(){
-        return userRepository.findAll();
+    public ResponseEntity<List<User>> getAllUsers() {
+        return ResponseEntity.ok(userRepository.findAll());
     }
+
 
     @GetMapping("/getUser/")
-    public UserDetails getUserByName(@RequestParam(name="username") String username){
-        return userManagerService.loadUserByUsername(username);
+    public UserDTO getUserByName(@RequestParam(name = "email") String email) {
+        return userService.getUserByEmail(email);
     }
 
-
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody UserDTO userDTO){
+    public ResponseEntity<String> registerUser(@RequestBody @Valid RegistrationDTO registrationDTO) throws UserAlreadyExistException {
         ModelMapper mapper = new ModelMapper();
-        User user = mapper.map(userDTO, User.class);
+        User user = mapper.map(registrationDTO, User.class);
         SecurityUser securityUser = new SecurityUser(user);
-        userManagerService.createUser(securityUser);
+        userService.registerUser(securityUser);
         return ResponseEntity.status(HttpStatus.OK).body("Registration Successful");
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<?> login(HttpServletRequest httpServletRequest) {
+        HttpSession session = httpServletRequest.getSession();
+        if (session != null) {
+            String sessionId = session.getId();
+            System.out.println(sessionId);
+            return ResponseEntity.ok(sessionId);
+        } else {
+            System.out.println("failed");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Failed to login");
+        }
+    }
 
     @GetMapping("/hello")
-    public String hello(Authentication auth){
+    public String hello(Authentication auth) {
         return "Hello, " + auth.getName() + "!~";
     }
 

@@ -1,7 +1,5 @@
-package com.example.demo.controllers;
+package com.example.demo.product;
 
-import com.example.demo.models.Product;
-import com.example.demo.services.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +21,6 @@ public class ProductController {
     public ResponseEntity<List<Product>> getProductsFromCategory(@PathVariable String category){
         List<Product> products = productService.findByCategory(category);
         return ResponseEntity.status(200).body(products);
-
     }
 
 }

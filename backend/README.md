@@ -3,6 +3,16 @@ Create the login/sign up and storing of the user information.
 
 Creates the endpoints to be used for the frontend
 
+# Bugs Encounter 
+- Spring Circular Dependency 
+I had an issue where I had a circular dependency. Where one class relies on another class to be created.
+I had an issue where there were 3 classes forming a ciruclar dependency.
+- I paid close attention of the error message and where it is being stated 
+- I researched what is circualr dependency and take note of how its is happening on my code
+
+I noticed I should remove the dependency and move 
+
+
 # Issues that Occured
 Some issues that occured as I was working through my project:
 - Studying up how to handle setting up Checkout for users

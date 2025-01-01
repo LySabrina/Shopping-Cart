@@ -1,4 +1,4 @@
-package com.example.demo.dto;
+package com.example.demo.checkout;
 
 public class ChargeRequestDTO {
     private String email;

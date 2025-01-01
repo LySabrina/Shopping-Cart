@@ -1,6 +1,5 @@
-package com.example.demo.utility;
+package com.example.demo.product;
 
-import com.example.demo.models.Product;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 
