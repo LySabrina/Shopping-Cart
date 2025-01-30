@@ -1,4 +1,4 @@
-package com.example.demo.services;
+package com.example.demo.stripe;
 
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;

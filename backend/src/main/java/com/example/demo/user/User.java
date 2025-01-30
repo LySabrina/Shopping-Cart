@@ -1,10 +1,11 @@
-package com.example.demo.models;
+package com.example.demo.user;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import lombok.NoArgsConstructor;
-import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
@@ -16,8 +17,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * Model Class of User
  * Database to Java Representation of a table value
  */
-public class User extends Base {
+@Document(collection = "User")
+public class User{
 
+    @Id
+    private String id;
     private String fname;
     private String lname;
 

@@ -1,6 +1,5 @@
-package com.example.demo.utility;
+package com.example.demo.product;
 
-import com.example.demo.models.Product;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 
@@ -55,6 +54,7 @@ public class ProductToDB {
             JsonArray arr = gson.fromJson(builder.toString(), JsonArray.class);
             for(int i =0;i < arr.size(); i++){
                 JsonObject obj = arr.get(i).getAsJsonObject();
+
                 String category = obj.get("category").getAsString().toUpperCase();
                 if(category.equals("MEN'S CLOTHING")){
                     category ="MEN";
@@ -63,8 +63,11 @@ public class ProductToDB {
                     category = "WOMEN";
                 }
                 long price =  (long) (obj.get("price").getAsFloat() * 100);
+
                 Product p = new Product(obj.get("title").getAsString(), price, Product.Category.valueOf(category), obj.get("description").getAsString(), obj.get("image").getAsString());
+
                 Document document = Document.parse(gson.toJson(p));
+                System.out.println(document.toString());
                 collection.insertOne(document);
             }
 

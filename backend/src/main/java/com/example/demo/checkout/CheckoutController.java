@@ -1,10 +1,10 @@
-package com.example.demo.controllers;
+package com.example.demo.checkout;
 
-import com.example.demo.dto.ProductDTO;
-import com.example.demo.services.ProductService;
-import com.example.demo.services.StripeService;
+import com.example.demo.exceptions.ProductNotFoundException;
+import com.example.demo.product.ProductDTO;
+import com.example.demo.product.ProductService;
+import com.example.demo.stripe.StripeService;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
@@ -18,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/checkout/")
+@CrossOrigin("http://localhost:5173")
 public class CheckoutController {
 
     private final StripeService stripeService;
@@ -41,7 +42,7 @@ public class CheckoutController {
      * @return client secret to be used for Stripe checkout
      */
     @PostMapping("/create-payment-intent")
-    public ResponseEntity<String> makePaymentIntent(@RequestBody List<ProductDTO> productDTOList) throws StripeException {
+    public ResponseEntity<String> makePaymentIntent(@RequestBody List<ProductDTO> productDTOList) throws StripeException, ProductNotFoundException {
         // Now that I got the produuct id and each amount, how should go about generating the Stripe checkout?
         // https://stackoverflow.com/questions/75710891/do-you-have-to-store-your-products-in-stripe-to-process-payment
         // don't have to fetch price from Stripe, no need to store products in  Stripe but would be good to sync up with Stripe for consistency

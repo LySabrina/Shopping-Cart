@@ -16,11 +16,11 @@ import org.springframework.stereotype.Component;
  */
 public class UserAuthenticationProvider  implements AuthenticationProvider {
 
-    private  final UserManagerService userManagerService;
+    private  final UserSecurityManager userSecurityManager;
     private final PasswordEncoder passwordEncoder;
 
-    public UserAuthenticationProvider(UserManagerService userManagerService, PasswordEncoder passwordEncoder){
-        this.userManagerService = userManagerService;
+    public UserAuthenticationProvider(UserSecurityManager userSecurityManager, PasswordEncoder passwordEncoder){
+        this.userSecurityManager = userSecurityManager;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -29,15 +29,13 @@ public class UserAuthenticationProvider  implements AuthenticationProvider {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
 
-
-            UserDetails userDetails = userManagerService.loadUserByUsername(username);
+            UserDetails userDetails = userSecurityManager.loadUserByUsername(username);
             if(passwordEncoder.matches(password, userDetails.getPassword())){
                 return new UsernamePasswordAuthenticationToken(userDetails.getUsername(),userDetails.getPassword(),userDetails.getAuthorities());
             }
             else{
                 throw new BadCredentialsException("Invalid Credentials");
             }
-
     }
 
     @Override
