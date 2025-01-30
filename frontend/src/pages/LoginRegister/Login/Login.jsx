@@ -12,7 +12,7 @@ function Login() {
     const target = e.target;
     const name = target.name;
     const value = target.value;
-
+    console.log("value", value);
     setLogin((prevVal) => {
       return {
         ...prevVal,
@@ -23,14 +23,16 @@ function Login() {
 
   async function handleOnSubmit(e) {
     e.preventDefault();
-    const response = await fetch("http://localhost:8080/api/login", {
+    const response = await fetch("http://localhost:8080/api/account/login", {
       method: "POST",
     });
+    
+    console.log(await response.text());
   }
 
   return (
     <div className={style.container}>
-      <form className={style.form}>
+      <form className={style.form} onSubmit={handleOnSubmit}>
         <h1>Login</h1>
 
         <div className={style["form__input-group"]}>
@@ -38,6 +40,7 @@ function Login() {
           <input
             type="text"
             id="email"
+            name="email"
             placeholder="Email"
             value={login.email}
             onChange={(e) => handleFormOnChange(e)}
@@ -50,6 +53,7 @@ function Login() {
             type="password"
             id="password"
             placeholder="Password"
+            name="password"
             value={login.password}
             onChange={(e) => handleFormOnChange(e)}
           />

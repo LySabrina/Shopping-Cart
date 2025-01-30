@@ -37,6 +37,16 @@
 - <App> already had <ShopContext> so when we switched, the ShopContext disappears with it
 - Hence, we needed to add the shopcontext to the Checkout, which is consider its own page now - separate from App
 
+
+Issue Now:
+- App Page has its own cart items 
+- Checkout Page has its own cart items
+
+Then I researched online about sharing providers among sibiling components. 
+My approach was wrong, I need to move the ShopProvider to the nearest ancestor which is the <main.jsx>, root. 
+
+Once I did that, now both App and Checkout share the same cart items 
+
 #### isLoading and PaymentElement
 
 If isLoading is true, then the PaymentForm disappears from the HTML document and Stripe can not process the payment.
@@ -90,6 +100,8 @@ export default PaymentForm;
 ```
 
 So the issue is that I should get rid of the <form> inside the CheckoutForm.jsx and instead pass the handleOnSubmit() function as a prop to the <form> element inside the PaymentForm.jsx. If we don't, once we click on submit, the <form> inside PaymentForm.jsx will refresh and will not confirm the payment to Stripe.
+
+We had a form within a form which is not good HTML standard practice. And when I click submit, the confirm Function is not being called correctly on the right form. 
 
 Resolve:
 

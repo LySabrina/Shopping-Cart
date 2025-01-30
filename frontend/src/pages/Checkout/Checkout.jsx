@@ -12,9 +12,9 @@ import CheckoutItem from "./CheckoutItem.jsx";
 const stripePromise = loadStripe(import.meta.env.VITE_PUBLIC_KEY);
 
 function Checkout() {
-  const cartItems = useShopContext() ?? [];
+  const cartItems = useShopContext();
   const navigate = useNavigate();
-  console.log("cart Item -", cartItems);
+  console.log("Checkout cart items -", cartItems);
 
   const clientSecret = useLocation().state?.clientSecret;
   const id = useLocation().state?.id;
@@ -39,7 +39,7 @@ function Checkout() {
     const response = await result.text();
     console.log(response);
 
-    navigate("/cart", {replace:true});
+    navigate("/cart", { replace: true });
 
     // return
   }
