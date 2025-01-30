@@ -12,7 +12,6 @@ I had an issue where there were 3 classes forming a ciruclar dependency.
 
 I noticed I should remove the dependency and move 
 
-
 # Issues that Occured
 Some issues that occured as I was working through my project:
 - Studying up how to handle setting up Checkout for users

@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,30 +39,23 @@ public class SecurityConfig {
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws  Exception{
-        //I need HTTP Basic to enable the Username and password mechanics
-        //When we do httpBasic() Spring Security is creating a BasicAuthFilter in the SecurityFilterchain
-        // AllowedOrigins makes it easier so you don't have to add @CrossOrigin on every controller you make
-        http.cors(c ->{
-            CorsConfigurationSource source = request -> {
-                CorsConfiguration config = new CorsConfiguration();
-                config.setAllowedOrigins(
-                        List.of("http://localhost:5173")
-                );
-                config.setAllowedMethods(
-                        List.of("GET", "POST")
-                );
-                config.setAllowedHeaders(List.of("*"));
-                return config;
-            };
-            c.configurationSource(source);
-        });
+//        http.authorizeHttpRequests((requests)->
+//                        requests.requestMatchers("/api/product/*").authenticated()
+//                                .requestMatchers("/api/account/*").permitAll()
+//
+//                )
+//                .authenticationProvider(authenticationProvider)
+//                .sessionManagement(session -> session
+//                .sessionFixation().migrateSession())
+//
+//                .csrf(csrf->csrf.disable());
 
-        http.csrf((c)-> c.disable());
-        http.authorizeHttpRequests(
-                (request) -> request.requestMatchers("/api/account/get")
-                        .authenticated().anyRequest().permitAll())
-                .formLogin(formLogin -> formLogin.loginPage("http://localhost:5173/account/login"));
-        return http.authenticationProvider(authenticationProvider).build();
+        http.authorizeHttpRequests((request)->
+                request.anyRequest().permitAll())
+                .csrf((csrf)->csrf.disable())
+        ;
+        // Optional: Disable CSRF for stateless APIs (e.g., REST APIs)
+        return http.build();
     }
 
 

@@ -19,7 +19,7 @@ public class ProductToStripe {
     //Find some way to use WebHooks to have Database & Stripe be in sync
     // Update items with category later
     public static void main(String[] args) throws StripeException {
-        Stripe.apiKey = "API KEY";
+        Stripe.apiKey = "api_key";
         MongoClient client = MongoClients.create();
         MongoDatabase db = client.getDatabase("Shopping");
         MongoCollection<Document> collection = db.getCollection("Product");
@@ -30,9 +30,10 @@ public class ProductToStripe {
             String imgURL = doc.get("image").toString();
             String name = doc.get("title").toString();
             String category = doc.get("category").toString();
-            float price = Float.parseFloat( doc.get("price").toString());
-
-            ProductCreateParams.DefaultPriceData unitAmt = ProductCreateParams.DefaultPriceData.builder().setCurrency("usd").setUnitAmount(toPennies(price)).build();
+            Long price = Long.parseLong(doc.get("price").toString());
+//            float price = Float.parseFloat( doc.get("price").toString());
+            System.out.println(price);
+            ProductCreateParams.DefaultPriceData unitAmt = ProductCreateParams.DefaultPriceData.builder().setCurrency("usd").setUnitAmount(price).build();
 
             ProductCreateParams params = ProductCreateParams.builder().setName(name)
                     .setId(id)
@@ -41,8 +42,9 @@ public class ProductToStripe {
                     .putMetadata("category", category)
                     .build();
             Product product = Product.create(params);
-        }
 
+        }
+        System.out.println("Created");
     }
 
     private static long toPennies(float price){

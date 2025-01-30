@@ -21,6 +21,11 @@ public class Product {
     private String image;
 
     public Product(String title, long price, Category category, String description, String image) {
+        this.title = title;
+        this.price = price;
+        this.category = category;
+        this.description = description;
+        this.image = image;
     }
 
     public enum Category{
