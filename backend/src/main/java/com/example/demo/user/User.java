@@ -1,27 +1,31 @@
 package com.example.demo.user;
 
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 
-
+@Entity
 /**
  * Model Class of User
  * Database to Java Representation of a table value
  */
-@Document(collection = "User")
 public class User{
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String fname;
     private String lname;
 
@@ -36,4 +40,6 @@ public class User{
         this.lname = lname;
         this.fname = fname;
     }
+
+
 }

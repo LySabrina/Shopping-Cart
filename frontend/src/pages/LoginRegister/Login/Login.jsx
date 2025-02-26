@@ -20,13 +20,19 @@ function Login() {
       };
     });
   }
+  console.log(login);
 
   async function handleOnSubmit(e) {
     e.preventDefault();
-    const response = await fetch("http://localhost:8080/api/account/login", {
+    console.log(btoa(login.email + ":" + login.password));
+
+    const response = await fetch("http://localhost:8080/api/login", {
       method: "POST",
+      headers: {
+        Authorization: "Basic " + btoa(login.email + ":" + login.password),
+      },
     });
-    
+
     console.log(await response.text());
   }
 
@@ -52,6 +58,7 @@ function Login() {
           <input
             type="password"
             id="password"
+            name="password"
             placeholder="Password"
             name="password"
             value={login.password}

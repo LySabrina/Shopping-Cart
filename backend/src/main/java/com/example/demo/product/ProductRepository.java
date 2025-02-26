@@ -1,18 +1,26 @@
 package com.example.demo.product;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
+
+import com.example.demo.product.Product.Category;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.ListCrudRepository;
+import org.springframework.data.repository.ListPagingAndSortingRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface ProductRepository extends MongoRepository<Product, Integer> {
-    // no need for Optional for the list, because an empty
-    //category would return a list of size 0, not null
-    @Query("{'category' : ?0}")
-    List<Product> findByCategory(String category);
+@Repository
+public interface ProductRepository extends ListPagingAndSortingRepository<Product, Long>, ListCrudRepository<Product, Long> {
 
-    @Query("{'id' : ?0}")
-    Optional<Product> findById(String id);
+
+    Page<Product> findAllByCategory(Category category, Pageable pageable);
+    List<Product> findByCategory(Category category);
+    Optional<Product> findById(Long id);
+
+    @Query(value = "select * from product where LOWER(title) LIKE %?1% LIMIT 5", nativeQuery = true)
+    List<Product> findProductsWithName(String name);
 
 }
