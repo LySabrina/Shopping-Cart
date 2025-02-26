@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 /**
+ * Can have multiple AuthenticationProviders
+ * ProviderManager will handle multiple AuthenticationProvider
+ * We can have: UsernamePassword authenticationProvider or OAuth authenticationProvider
  * An Authentication Provider uses a UserDetailsService and PasswordEncoder to complete the authentication process
  */
 public class UserAuthenticationProvider  implements AuthenticationProvider {
@@ -29,12 +32,12 @@ public class UserAuthenticationProvider  implements AuthenticationProvider {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
 
-            UserDetails userDetails = userSecurityManager.loadUserByUsername(username);
+        UserDetails userDetails = userSecurityManager.loadUserByUsername(username);
             if(passwordEncoder.matches(password, userDetails.getPassword())){
                 return new UsernamePasswordAuthenticationToken(userDetails.getUsername(),userDetails.getPassword(),userDetails.getAuthorities());
             }
             else{
-                throw new BadCredentialsException("Invalid Credentials");
+                throw new BadCredentialsException("");
             }
     }
 

@@ -1,22 +1,28 @@
 package com.example.demo.product;
 
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "Product")
+@Entity
+@Table(name = "Product")
 public class Product {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String title;
     private long price;
+
+    @Enumerated(EnumType.STRING)
     private Category category;
+
+    @Column(columnDefinition = "TEXT")
     private String description;
     private String image;
 
@@ -34,6 +40,5 @@ public class Product {
         MEN,
         WOMEN
     }
-
 
 }

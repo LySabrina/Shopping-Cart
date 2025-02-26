@@ -1,16 +1,14 @@
 package com.example.demo.product;
 
+import com.example.demo.product.Product.Category;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 
 import com.google.gson.JsonObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 
-
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import org.bson.Document;
+import org.springframework.stereotype.Component;
 
 
 import java.io.BufferedReader;
@@ -20,6 +18,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 
 /**
@@ -28,9 +27,19 @@ import java.net.URL;
  * Why? Because I need to know the IDs of the products the user wants to buy and use it with Stripe to create the checkout (used to display product at checkout and invoice)
  * So get product IDs from database and use it with Stripe to create the checkout
  */
-public class ProductToDB {
 
-    public static void main(String[] args){
+@Component
+public class ProductToDB implements CommandLineRunner {
+    @Autowired
+    ProductRepository productRepository;
+
+    @Override
+    public void run(String... args) throws Exception {
+        List<Product> checkProducts = productRepository.findAll();
+        if(checkProducts.size() > 0){
+            return;
+        }
+        System.out.println("Ran product to db");
         try{
             URL url = new URL("https://fakestoreapi.com/products");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -46,11 +55,6 @@ public class ProductToDB {
             }
             Gson gson = new Gson();
 
-            MongoClient client = MongoClients.create();
-            MongoDatabase db = client.getDatabase("Shopping");
-            db.createCollection("Product");
-            MongoCollection<Document> collection = db.getCollection("Product");
-
             JsonArray arr = gson.fromJson(builder.toString(), JsonArray.class);
             for(int i =0;i < arr.size(); i++){
                 JsonObject obj = arr.get(i).getAsJsonObject();
@@ -64,14 +68,12 @@ public class ProductToDB {
                 }
                 long price =  (long) (obj.get("price").getAsFloat() * 100);
 
-                Product p = new Product(obj.get("title").getAsString(), price, Product.Category.valueOf(category), obj.get("description").getAsString(), obj.get("image").getAsString());
-
-                Document document = Document.parse(gson.toJson(p));
-                System.out.println(document.toString());
-                collection.insertOne(document);
+                Product p = new Product(obj.get("title").getAsString(), price, Category.valueOf(category)
+                        , obj.get("description").getAsString(), obj.get("image").getAsString());
+                productRepository.save(p);
             }
 
-         }
+        }
         catch(MalformedURLException e){
             e.printStackTrace();
 

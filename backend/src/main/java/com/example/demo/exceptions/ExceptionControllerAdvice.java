@@ -3,6 +3,7 @@ package com.example.demo.exceptions;
 import com.stripe.exception.StripeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -51,5 +52,20 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler(ProductNotFoundException.class)
     public ResponseEntity<String> handleProductNotFoundException(ProductNotFoundException productNotFoundException) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(productNotFoundException.getMessage());
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<String> handleBadCredentialsException(){
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid Credentials");
+    }
+
+    @ExceptionHandler(NumberFormatException.class)
+    public ResponseEntity<String> handleNumberFormatException(){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Not a valid id");
+    }
+
+    @ExceptionHandler(UserAlreadyExistException.class)
+    public ResponseEntity<String> handleUserAlreadyExistException(UserAlreadyExistException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User: " + exception.getMessage() + " already exist");
     }
 }

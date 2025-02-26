@@ -20,17 +20,23 @@ function Login() {
       };
     });
   }
+  console.log(login);
 
   async function handleOnSubmit(e) {
     e.preventDefault();
+    console.log(btoa(login.email + ":" + login.password));
+
     const response = await fetch("http://localhost:8080/api/login", {
       method: "POST",
+      headers: {
+        Authorization: "Basic " + btoa(login.email + ":" + login.password),
+      },
     });
   }
 
   return (
     <div className={style.container}>
-      <form className={style.form}>
+      <form className={style.form} onSubmit={handleOnSubmit}>
         <h1>Login</h1>
 
         <div className={style["form__input-group"]}>
@@ -38,6 +44,7 @@ function Login() {
           <input
             type="text"
             id="email"
+            name="email"
             placeholder="Email"
             value={login.email}
             onChange={(e) => handleFormOnChange(e)}
@@ -49,6 +56,7 @@ function Login() {
           <input
             type="password"
             id="password"
+            name="password"
             placeholder="Password"
             value={login.password}
             onChange={(e) => handleFormOnChange(e)}
