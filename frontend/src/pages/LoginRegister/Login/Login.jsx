@@ -60,7 +60,6 @@ function Login() {
             id="password"
             name="password"
             placeholder="Password"
-            name="password"
             value={login.password}
             onChange={(e) => handleFormOnChange(e)}
           />

@@ -30,7 +30,8 @@ const routes = [
 
           const responseJson = await fetchCategory.json();
           console.log(responseJson);
-          const items = responseJson.map((elem) => {
+
+          const items = responseJson.content.map((elem) => {
             elem.price = elem.price / 100;
             return elem;
           });

@@ -31,8 +31,11 @@ function Navbar() {
       <button onClick={handleMenuButton} className={style.hamburger}>
         <img src={menuOpen} alt="Menu Button" />
       </button>
+
       <div>
-        <img src={logo} alt="Logo" />
+        <Link to={"/"}>
+          <img src={logo} alt="Logo" />
+        </Link>
       </div>
       <nav className={`${style.navbar} ${open ? style.navbar_expand : ""}`}>
         <button onClick={handleMenuButton} className={style.hamburger}>

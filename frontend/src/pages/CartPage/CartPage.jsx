@@ -57,6 +57,7 @@ function CartPage() {
       navigate("/checkout", { state: { clientSecret: clientSecret, id: id } });
       // return clientSecret;
     } catch (error) {
+      console.log(items);
       console.error(error.message);
     }
   }

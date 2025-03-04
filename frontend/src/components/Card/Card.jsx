@@ -6,7 +6,7 @@ import { useShopDispatch } from "../../contexts/ShopProvider.jsx";
 
 function Card({ title, img, price, id }) {
   const dispatch = useShopDispatch();
-  
+
   return (
     <div className={style.card}>
       <div className={style.card__img}>

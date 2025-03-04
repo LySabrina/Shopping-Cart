@@ -12,6 +12,7 @@
   "dependencies": {
     "@stripe/react-stripe-js": "^2.7.1",
     "@stripe/stripe-js": "^3.5.0",
+    "netlify-cli": "^19.0.0-pre.fb36998",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
